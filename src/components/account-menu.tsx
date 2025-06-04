@@ -1,4 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
+
+import { getManagedRestaurant } from '@/api/get-managed-restaurant'
+import { getProfile } from '@/api/get-profile'
 
 import { Button } from './ui/button'
 import {
@@ -11,6 +15,15 @@ import {
 } from './ui/dropdown-menu'
 
 export function AccountMenu() {
+  const { data: profileData } = useQuery({
+    queryFn: getProfile,
+    queryKey: ['profile'],
+  })
+  const { data: restaurantData } = useQuery({
+    queryFn: getManagedRestaurant,
+    queryKey: ['restaurant'],
+  })
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -18,15 +31,15 @@ export function AccountMenu() {
           variant={'outline'}
           className="flex select-none items-center gap-2"
         >
-          Pizza Shop
+          {restaurantData?.name}
           <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col">
-          <span>Matheus Sales</span>
+          <span>{profileData?.name}</span>
           <span className="text-muted-foreground text-xs font-normal">
-            matheusaugustopiegassales@gmail.com
+            {profileData?.email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
