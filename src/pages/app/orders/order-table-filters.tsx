@@ -100,6 +100,7 @@ export function OrderTableFilters() {
         render={({ field }) => (
           <Select
             defaultValue="all"
+            data-testid="status-select"
             onValueChange={field.onChange}
             value={field.value}
             disabled={field.disabled}
